@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DC Universe — Find The Hero</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@300;400;600;700&display=swap');
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --gold: #f5c518;
+      --blue: #0057b8;
+      --red: #c8102e;
+      --dark: #050810;
+      --darker: #020408;
+    }
+
+    html, body {
+      width: 100%; height: 100%;
+      background: var(--darker);
+      overflow: hidden;
+      font-family: 'Rajdhani', sans-serif;
+      cursor: none;
+    }
+
+    /* Custom cursor */
+    #cursor {
+      position: fixed;
+      width: 20px; height: 20px;
+      border: 2px solid var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
+      mix-blend-mode: difference;
+    }
+    #cursor.hover {
+      width: 40px; height: 40px;
+      background: rgba(245, 197, 24, 0.15);
+    }
+
+    /* Three.js canvas */
+    #three-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+    }
+
+    /* Overlay gradient */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 30%, var(--darker) 80%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Scanlines effect */
+    .scanlines {
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.15) 2px,
+        rgba(0,0,0,0.15) 4px
+      );
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* Main UI */
+    .ui {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+
+    /* DC Logo */
+    .dc-logo-wrapper {
+      position: relative;
+      margin-bottom: 20px;
+      animation: floatLogo 4s ease-in-out infinite;
+    }
+    @keyframes floatLogo {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-12px); }
+    }
+
+    .dc-logo {
+      width: 120px; height: 120px;
+      background: var(--blue);
+      border: 4px solid var(--gold);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 72px;
+      color: white;
+      letter-spacing: -4px;
+      box-shadow:
+        0 0 40px rgba(0, 87, 184, 0.8),
+        0 0 80px rgba(0, 87, 184, 0.4),
+        inset 0 2px 0 rgba(255,255,255,0.2);
+      position: relative;
+      overflow: hidden;
+      text-shadow: 2px 2px 0 rgba(0,0,0,0.5);
+    }
+    .dc-logo::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: conic-gradient(transparent, rgba(245,197,24,0.3), transparent 30%);
+      animation: rotateLogo 3s linear infinite;
+    }
+    @keyframes rotateLogo {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .dc-logo span { position: relative; z-index: 1; }
+
+    /* Title */
+    .game-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(40px, 8vw, 80px);
+      color: white;
+      letter-spacing: 8px;
+      text-align: center;
+      line-height: 1;
+      text-shadow: 0 0 30px rgba(245,197,24,0.5);
+      margin-bottom: 8px;
+    }
+    .game-title .highlight {
+      color: var(--gold);
+      display: block;
+    }
+
+    .game-subtitle {
+      font-size: 14px;
+      font-weight: 300;
+      letter-spacing: 6px;
+      color: rgba(255,255,255,0.4);
+      text-transform: uppercase;
+      margin-bottom: 60px;
+    }
+.play-btn {
+      position: relative;
+      width: 200px; height: 60px;
+      background: transparent;
+      border: 2px solid var(--gold);
+      border-radius: 4px;
+      cursor: none;
+      overflow: hidden;
+      transition: transform 0.2s;
+    }
+    .play-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--gold);
+      transform: translateX(-100%);
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .play-btn:hover::before { transform: translateX(0); }
+    .play-btn:hover { transform: scale(1.05); }
+    .play-btn:hover .btn-text { color: var(--darker); }
+    .play-btn:active { transform: scale(0.98); }
+
+    .btn-text {
+      position: relative;
+      z-index: 1;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      letter-spacing: 4px;
+      color: var(--gold);
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      height: 100%;
+      transition: color 0.4s;
+      user-select: none;
+    }
+    .btn-icon {
+      font-size: 16px;
+      transition: transform 0.3s;
+    }
+    .play-btn:hover .btn-icon { transform: translateX(4px); }
+
+    /* Hero count badge */
+    .hero-count {
+      margin-top: 24px;
+      font-size: 12px;
+      letter-spacing: 4px;
+      color: rgba(255,255,255,0.3);
+      text-transform: uppercase;
+    }
+    .hero-count strong { color: var(--gold); }
+
+    /* Corner decorations */
+    .corner {
+      position: fixed;
+      width: 80px; height: 80px;
+      z-index: 5;
+      pointer-events: none;
+    }
+    .corner::before, .corner::after {
+      content: '';
+      position: absolute;
+      background: var(--gold);
+    }
+    .corner::before { width: 2px; height: 40px; }
+    .corner::after { width: 40px; height: 2px; }
+    .corner.tl { top: 24px; left: 24px; }
+    .corner.tr { top: 24px; right: 24px; transform: scaleX(-1); }
+    .corner.bl { bottom: 24px; left: 24px; transform: scaleY(-1); }
+    .corner.br { bottom: 24px; right: 24px; transform: scale(-1); }
+
+    /* Bottom info bar */
+    .info-bar {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: 40px;
+      display: flex; align-items: center;
+      padding: 0 32px;
+      z-index: 10;
+      gap: 32px;
+    }
+    .info-item {
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: rgba(255,255,255,0.2);
+      text-transform: uppercase;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .info-item::before {
+      content: '◆';
+      color: var(--gold);
+      font-size: 6px;
+    }
+/* Intro animation overlay */
+    #intro-overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--darker);
+      z-index: 100;
+      display: flex; align-items: center; justify-content: center;
+      animation: introFade 1.5s ease-out 0.5s forwards;
+    }
+    @keyframes introFade {
+      to { opacity: 0; pointer-events: none; }
+    }
+    .intro-dc {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 200px;
+      color: var(--blue);
+      opacity: 0;
+      animation: introScale 1.2s ease-out 0.2s forwards;
+      text-shadow: 0 0 80px rgba(0,87,184,1);
+    }
+    @keyframes introScale {
+      from { opacity: 0; transform: scale(2); filter: blur(20px); }
+      to { opacity: 1; transform: scale(1); filter: blur(0); }
+    }
+
+    /* Transition screen */
+    #transition {
+      position: fixed;
+      inset: 0;
+      background: var(--darker);
+      z-index: 200;
+      pointer-events: none;
+      opacity: 0;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 20px;
+    }
+    #transition.active {
+      pointer-events: all;
+      animation: transitionIn 0.5s ease-out forwards;
+    }
+    @keyframes transitionIn {
+      to { opacity: 1; }
+    }
+    .loading-bar {
+      width: 300px; height: 2px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .loading-bar-fill {
+      height: 100%;
+      background: var(--gold);
+      width: 0%;
+      transition: width 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .loading-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 18px;
+      letter-spacing: 6px;
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* Particles */
+    .particles-container {
+      position: fixed;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+    }
+    .particle {
+      position: absolute;
+      width: 2px; height: 2px;
+      background: var(--gold);
+      border-radius: 50%;
+      animation: particleDrift linear infinite;
+      opacity: 0;
+    }
+    @keyframes particleDrift {
+      0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10% { opacity: 0.6; }
+      90% { opacity: 0.3; }
+      100% { transform: translateY(-100px) translateX(var(--drift)); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="intro-overlay">
+    <div class="intro-dc">DC</div>
+  </div>
+
+  <div id="cursor"></div>
+
+  <canvas id="three-canvas"></canvas>
+  <div class="overlay"></div>
+  <div class="scanlines"></div>
+  <div class="particles-container" id="particles"></div>
+
+  <!-- Corners -->
+  <div class="corner tl"></div>
+  <div class="corner tr"></div>
+  <div class="corner bl"></div>
+  <div class="corner br"></div>
+
+  <!-- Main UI -->
+  <div class="ui">
+    <div class="dc-logo-wrapper">
+      <div class="dc-logo"><span>DC</span></div>
+    </div>
+    <h1 class="game-title">
+      Find The<br>
+      <span class="highlight">Hero</span>
+    </h1>
+    <p class="game-subtitle">Univers DC — Qui possède cet objet ?</p>
+
+    <button class="play-btn" id="playBtn" onclick="startGame()">
+      <span class="btn-text">
+        JOUER
+        <span class="btn-icon">▶</span>
+      </span>
+    </button>
+
+    <p class="hero-count"><strong>21</strong> héros à découvrir</p>
+  </div>
+
+  <!-- Info bar -->
+  <div class="info-bar">
+    <span class="info-item">Batman</span>
+    <span class="info-item">Superman</span>
+    <span class="info-item">Wonder Woman</span>
+    <span class="info-item">Flash</span>
+    <span class="info-item">Aquaman</span>
+  </div>
+
+  <!-- Transition -->
+  <div id="transition">
+    <div class="loading-text">Chargement de l'univers DC...</div>
+    <div class="loading-bar"><div class="loading-bar-fill" id="loadingFill"></div></div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+
+// ============================
+    // CUSTOM CURSOR
+    // ============================
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+    });
+    document.querySelectorAll('button, a').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+    });
+
+    // ============================
+    // PARTICLES
+    // ============================
+    const particlesContainer = document.getElementById('particles');
+    for (let i = 0; i < 30; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const size = Math.random() * 3 + 1;
+      p.style.cssText = `
+        left: ${Math.random() * 100}%;
+        width: ${size}px;
+        height: ${size}px;
+        animation-duration: ${Math.random() * 15 + 10}s;
+        animation-delay: ${Math.random() * 10}s;
+        --drift: ${(Math.random() - 0.5) * 200}px;
+        opacity: 0;
+      `;
+      particlesContainer.appendChild(p);
+    }
+
+    // ============================
+    // THREE.JS SCENE
+    // ============================
+    const canvas = document.getElementById('three-canvas');
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 0, 8);
+
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0x111122, 2);
+    scene.add(ambientLight);
+
+    const blueLight = new THREE.PointLight(0x0057b8, 8, 20);
+    blueLight.position.set(-5, 3, 3);
+    scene.add(blueLight);
+
+    const goldLight = new THREE.PointLight(0xf5c518, 6, 20);
+    goldLight.position.set(5, -2, 3);
+    scene.add(goldLight);
+
+    const redLight = new THREE.PointLight(0xc8102e, 4, 15);
+    redLight.position.set(0, -5, 2);
+    scene.add(redLight);
+
+    // ============================
+    // DC HERO EMBLEMS (3D Objects)
+    // ============================
+    const heroColors = [
+      { color: 0xf5c518, emissive: 0x7a6000, label: 'Batman' },      // Gold
+      { color: 0x0057b8, emissive: 0x002a5a, label: 'Superman' },     // Blue
+      { color: 0xc8102e, emissive: 0x640820, label: 'Wonder Woman' }, // Red
+      { color: 0xcc0000, emissive: 0x660000, label: 'Flash' },        // Scarlet
+      { color: 0x00a8e8, emissive: 0x004f70, label: 'Aquaman' },      // Aqua
+      { color: 0x00ff88, emissive: 0x007040, label: 'Green Lantern' },
+      { color: 0x9b59b6, emissive: 0x4a1060, label: 'Joker' },
+    ];
+
+    const floatingObjects = [];
+
+    heroColors.forEach((hero, i) => {
+      const angle = (i / heroColors.length) * Math.PI * 2;
+      const radius = 5;
+      const x = Math.cos(angle) * radius;
+      const y = Math.sin(angle) * 1.5 + (Math.random() - 0.5) * 2;
+      const z = Math.sin(angle) * radius * 0.3 - 2;
+
+      // Choose shape variation
+      let geometry;
+      const shapeType = i % 3;
+      if (shapeType === 0) geometry = new THREE.OctahedronGeometry(0.4, 0);
+      else if (shapeType === 1) geometry = new THREE.TetrahedronGeometry(0.45, 0);
+      else geometry = new THREE.IcosahedronGeometry(0.38, 0);
+
+      const material = new THREE.MeshStandardMaterial({
+        color: hero.color,
+        emissive: hero.emissive,
+        emissiveIntensity: 0.8,
+        metalness: 0.9,
+        roughness: 0.2,
+        wireframe: false,
+      });
+
+      const mesh = new THREE.Mesh(geometry, material);
+      mesh.position.set(x, y, z);
+      mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0);
+
+      // Wireframe overlay
+      const wireMat = new THREE.MeshBasicMaterial({
+        color: hero.color,
+        wireframe: true,
+        opacity: 0.15,
+        transparent: true,
+      });const wireMesh = new THREE.Mesh(geometry.clone(), wireMat);
+      wireMesh.scale.setScalar(1.05);
+      mesh.add(wireMesh);
+
+      scene.add(mesh);
+      floatingObjects.push({
+        mesh,
+        baseY: y,
+        baseX: x,
+        speed: 0.3 + Math.random() * 0.5,
+        rotSpeed: (Math.random() - 0.5) * 0.02,
+        floatOffset: Math.random() * Math.PI * 2,
+        floatRadius: 0.3 + Math.random() * 0.4,
+      });
+    });
+
+// Background particles (stars)
+    const starGeometry = new THREE.BufferGeometry();
+    const starCount = 1500;
+    const starPositions = new Float32Array(starCount * 3);
+    for (let i = 0; i < starCount * 3; i++) {
+      starPositions[i] = (Math.random() - 0.5) * 60;
+    }
+    starGeometry.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
+    const starMaterial = new THREE.PointsMaterial({
+      color: 0xffffff,
+      size: 0.04,
+      transparent: true,
+      opacity: 0.6,
+    });
+    const stars = new THREE.Points(starGeometry, starMaterial);
+    scene.add(stars);
+
+    // Batman signal shape (pentagon-like)
+    const signalGeometry = new THREE.CircleGeometry(3, 5);
+    const signalMaterial = new THREE.MeshBasicMaterial({
+      color: 0xf5c518,
+      transparent: true,
+      opacity: 0.03,
+      side: THREE.DoubleSide,
+    });
+    const signal = new THREE.Mesh(signalGeometry, signalMaterial);
+    signal.position.set(0, 0, -5);
+    signal.rotation.x = -0.3;
+    scene.add(signal);
+
+    // Ring
+    const ringGeometry = new THREE.TorusGeometry(4, 0.015, 8, 100);
+    const ringMaterial = new THREE.MeshBasicMaterial({ color: 0xf5c518, transparent: true, opacity: 0.1 });
+    const ring = new THREE.Mesh(ringGeometry, ringMaterial);
+    ring.rotation.x = Math.PI / 2.5;
+    scene.add(ring);
+
+    const ring2Geometry = new THREE.TorusGeometry(5.5, 0.01, 8, 100);
+    const ring2Material = new THREE.MeshBasicMaterial({ color: 0x0057b8, transparent: true, opacity: 0.08 });
+    const ring2 = new THREE.Mesh(ring2Geometry, ring2Material);
+    ring2.rotation.x = Math.PI / 3;
+    ring2.rotation.y = Math.PI / 4;
+    scene.add(ring2);
+
+    // Mouse interaction
+    let mouseX = 0, mouseY = 0;
+    document.addEventListener('mousemove', e => {
+      mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+      mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+    });
+
+    // Animate
+    const clock = new THREE.Clock();
+    function animate() {
+      requestAnimationFrame(animate);
+      const elapsed = clock.getElapsedTime();
+
+      // Camera parallax
+      camera.position.x += (mouseX * 1.5 - camera.position.x) * 0.02;
+      camera.position.y += (-mouseY * 0.8 - camera.position.y) * 0.02;
+      camera.lookAt(0, 0, 0);
+
+      // Float objects
+      floatingObjects.forEach((obj, i) => {
+        const t = elapsed * obj.speed + obj.floatOffset;
+        obj.mesh.position.y = obj.baseY + Math.sin(t) * obj.floatRadius;
+        obj.mesh.rotation.x += obj.rotSpeed;
+        obj.mesh.rotation.y += obj.rotSpeed * 0.7;
+
+        // Pulse emissive
+        obj.mesh.material.emissiveIntensity = 0.5 + Math.sin(elapsed * 2 + i) * 0.3;
+      });
+
+      // Rotate rings
+      ring.rotation.z = elapsed * 0.1;
+      ring2.rotation.z = -elapsed * 0.07;
+
+      // Rotate stars slowly
+      stars.rotation.y = elapsed * 0.01;
+      stars.rotation.x = elapsed * 0.005;
+
+      // Pulse signal
+      signal.material.opacity = 0.02 + Math.sin(elapsed * 0.5) * 0.015;
+
+      // Light animation
+      blueLight.position.x = Math.sin(elapsed * 0.3) * 6;
+      blueLight.position.y = Math.cos(elapsed * 0.4) * 4;
+      goldLight.position.x = Math.cos(elapsed * 0.25) * 6;
+      goldLight.position.y = Math.sin(elapsed * 0.35) * 4;
+
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // Resize
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // ============================
+    // START GAME TRANSITION
+    // ============================
+    function startGame() {
+      const transition = document.getElementById('transition');
+      const fill = document.getElementById('loadingFill');
+      transition.classList.add('active');
+      setTimeout(() => { fill.style.width = '100%'; }, 100);
+      setTimeout(() => {
+        // Redirect to game page
+        window.location.href = 'dc-game.html';
+      }, 2000);
+    }
+  </script>
+</body>
+</html>
