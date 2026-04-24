@@ -1,0 +1,261 @@
+/* ============================================
+   DC FIND THE HERO — GLOBAL STYLES
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@300;400;600;700&display=swap');
+
+/* ---- VARIABLES ---- */
+:root {
+  --gold:        #f5c518;
+  --gold-dark:   #c49a00;
+  --blue:        #0057b8;
+  --blue-dark:   #003a7a;
+  --blue-light:  #4a9eff;
+  --red:         #c8102e;
+  --dark:        #050810;
+  --darker:      #020408;
+  --card-bg:     #0a0f1e;
+  --card-border: rgba(0, 87, 184, 0.3);
+  --text:        #ffffff;
+  --text-muted:  rgba(255, 255, 255, 0.4);
+  --text-dim:    rgba(255, 255, 255, 0.2);
+
+  --font-title:  'Bebas Neue', sans-serif;
+  --font-body:   'Rajdhani', sans-serif;
+
+  --radius:      6px;
+  --transition:  0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* ---- RESET ---- */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background: var(--darker);
+  color: var(--text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  cursor: none;
+}
+
+a { text-decoration: none; color: inherit; }
+button { border: none; background: none; font-family: inherit; cursor: none; }
+input, textarea { font-family: inherit; }
+
+/* ---- CUSTOM CURSOR ---- */
+#cursor {
+  position: fixed;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, height 0.2s, background 0.2s, border-color 0.2s;
+  mix-blend-mode: difference;
+}
+#cursor.hover {
+  width: 36px;
+  height: 36px;
+  background: rgba(245, 197, 24, 0.12);
+}
+#cursor.click {
+  transform: translate(-50%, -50%) scale(0.8);
+  background: rgba(245, 197, 24, 0.3);
+}
+
+/* ---- SCROLLBAR ---- */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--darker); }
+::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 2px; }
+
+/* ---- SCANLINES ---- */
+.scanlines {
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.12) 2px,
+    rgba(0, 0, 0, 0.12) 4px
+  );
+  pointer-events: none;
+  z-index: 999;
+}
+
+/* ---- CORNER DECORATIONS ---- */
+.corner {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  z-index: 50;
+  pointer-events: none;
+}
+.corner::before,
+.corner::after {
+  content: '';
+  position: absolute;
+  background: var(--gold);
+  opacity: 0.6;
+}
+.corner::before { width: 2px; height: 30px; }
+.corner::after  { width: 30px; height: 2px; }
+.corner.tl { top: 20px; left: 20px; }
+.corner.tr { top: 20px; right: 20px; transform: scaleX(-1); }
+.corner.bl { bottom: 20px; left: 20px; transform: scaleY(-1); }
+.corner.br { bottom: 20px; right: 20px; transform: scale(-1); }
+
+/* ---- BUTTONS ---- */
+.btn-primary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 32px;
+  height: 54px;
+  border: 2px solid var(--gold);
+  border-radius: var(--radius);
+  font-family: var(--font-title);
+  font-size: 20px;
+  letter-spacing: 4px;
+  color: var(--gold);
+  overflow: hidden;
+  transition: var(--transition);
+  cursor: none;
+}
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gold);
+  transform: translateX(-101%);
+  transition: transform var(--transition);
+}
+.btn-primary:hover::before { transform: translateX(0); }
+.btn-primary:hover { color: var(--darker); }
+.btn-primary span { position: relative; z-index: 1; }
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+  height: 44px;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  transition: var(--transition);
+  cursor: none;
+}
+.btn-secondary:hover {
+  border-color: var(--blue-light);
+  color: var(--text);
+}
+
+/* ---- INPUTS ---- */
+.input-field {
+  width: 100%;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 0 16px;
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: var(--text);
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+.input-field::placeholder { color: var(--text-dim); }
+.input-field:focus {
+  border-color: var(--blue-light);
+  box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.15);
+}
+
+/* ---- OVERLAY GRADIENT ---- */
+.overlay-radial {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 20%, var(--darker) 80%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ---- PARTICLES ---- */
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  animation: particleRise linear infinite;
+}
+@keyframes particleRise {
+  0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+  10%  { opacity: 0.5; }
+  90%  { opacity: 0.2; }
+  100% { transform: translateY(-80px) translateX(var(--drift, 0px)); opacity: 0; }
+}
+
+/* ---- LOADING SCREEN ---- */
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--darker);
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+.loading-screen.active {
+  opacity: 1;
+  pointer-events: all;
+}
+.loading-bar-track {
+  width: 280px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.loading-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--gold);
+  transition: width 1.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.loading-label {
+  font-family: var(--font-title);
+  font-size: 16px;
+  letter-spacing: 6px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+/* ---- UTILITY ---- */
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+}
