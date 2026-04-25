@@ -7,213 +7,212 @@ const DC_HEROES = [
   {
     id: 1,
     hero: "Batman",
-    aliases: ["bruce wayne", "le chevalier noir", "dark knight"],
+    aliases: ["bruce wayne", "le chevalier noir", "dark knight", "bat man"],
     object: "Batarang",
     objectDesc: "L'arme de lancer emblématique en forme de chauve-souris",
-    image: "assets/images/objects/batarang.jpg",
+    image: "assets/images/objets/Batarang.jpg",
     color: "#f5c518",
     difficulty: "facile"
   },
   {
     id: 2,
-    hero: "Batman",
-    aliases: ["bruce wayne", "le chevalier noir"],
-    object: "Masque de Batman",
-    objectDesc: "La cagoule emblématique avec les oreilles en pointe",
-    image: "assets/images/objects/masque-batman.jpg",
-    color: "#f5c518",
+    hero: "Aquaman",
+    aliases: ["arthur curry", "roi des mers", "orin"],
+    object: "Trident",
+    objectDesc: "Le trident doré qui commande les océans d'Atlantis",
+    image: "assets/images/objets/Trident.jpg",
+    color: "#00a8e8",
     difficulty: "facile"
   },
   {
     id: 3,
-    hero: "Superman",
-    aliases: ["clark kent", "l'homme d'acier", "man of steel"],
-    object: "Cape de Superman",
-    objectDesc: "La cape rouge avec le S doré",
-    image: "assets/images/objects/cape-superman.jpg",
-    color: "#c8102e",
-    difficulty: "facile"
+    hero: "Blue Beetle",
+    aliases: ["jaime reyes", "ted kord", "blue beetle"],
+    object: "Scarabée",
+    objectDesc: "Le scarabée alien qui fusionne avec son porteur",
+    image: "assets/images/objets/scarabé blue beetle.jpg",
+    color: "#4a9eff",
+    difficulty: "moyen"
   },
   {
     id: 4,
-    hero: "Superman",
-    aliases: ["clark kent", "l'homme d'acier"],
-    object: "Kryptonite",
-    objectDesc: "Le cristal vert, seule faiblesse de l'homme d'acier",
-    image: "assets/images/objects/kryptonite.jpg",
-    color: "#00ff88",
+    hero: "Raven",
+    aliases: ["rachel roth", "rachel"],
+    object: "Cape violette",
+    objectDesc: "La cape mystique violette à capuche de Raven",
+    image: "assets/images/objets/Raven Costume.jpg",
+    color: "#9b59b6",
     difficulty: "moyen"
   },
   {
     id: 5,
-    hero: "Wonder Woman",
-    aliases: ["diana prince", "la femme wonder", "amazone"],
-    object: "Lasso de Vérité",
-    objectDesc: "Le lasso doré qui force quiconque à dire la vérité",
-    image: "assets/images/objects/lasso-wonder.jpg",
-    color: "#f5c518",
-    difficulty: "facile"
+    hero: "Lobo",
+    aliases: ["the main man", "lobo le chasseur"],
+    object: "Moto",
+    objectDesc: "La moto spatiale à tête de mort de Lobo",
+    image: "assets/images/objets/moto lobo.jpg",
+    color: "#c8102e",
+    difficulty: "difficile"
   },
   {
     id: 6,
-    hero: "Wonder Woman",
-    aliases: ["diana prince", "amazone"],
-    object: "Bouclier d'Amazone",
-    objectDesc: "Le bouclier circulaire orné de l'aigle",
-    image: "assets/images/objects/bouclier-wonder.jpg",
-    color: "#c8102e",
-    difficulty: "moyen"
+    hero: "Mas y Menos",
+    aliases: ["mas", "menos", "mas and menos", "mas & menos", "mas et menos"],
+    object: "Signes + et -",
+    objectDesc: "Les emblèmes + et - des jumeaux super-rapides",
+    image: "assets/images/objets/mas&menos.jpg",
+    color: "#ffffff",
+    difficulty: "difficile"
   },
   {
     id: 7,
-    hero: "Wonder Woman",
-    aliases: ["diana prince", "amazone"],
-    object: "Tiare de Wonder Woman",
-    objectDesc: "La tiare dorée qui peut être utilisée comme arme",
-    image: "assets/images/objects/tiare-wonder.jpg",
+    hero: "Hawkman",
+    aliases: ["carter hall", "katar hol", "hawk man"],
+    object: "Masse dorée",
+    objectDesc: "La masse à pointes en métal nth de Hawkman",
+    image: "assets/images/objets/mace hawkman.jpg",
     color: "#f5c518",
     difficulty: "moyen"
   },
   {
     id: 8,
-    hero: "Flash",
-    aliases: ["barry allen", "wally west", "l'éclair"],
-    object: "Bague de Flash",
-    objectDesc: "La bague qui contient le costume de Flash replié",
-    image: "assets/images/objects/bague-flash.jpg",
-    color: "#cc0000",
-    difficulty: "difficile"
-  },
-  {
-    id: 9,
-    hero: "Flash",
-    aliases: ["barry allen", "wally west", "l'éclair"],
-    object: "Bottes de Flash",
-    objectDesc: "Les bottes écarlates avec les ailes dorées",
-    image: "assets/images/objects/bottes-flash.jpg",
-    color: "#cc0000",
-    difficulty: "moyen"
-  },
-  {
-    id: 10,
-    hero: "Aquaman",
-    aliases: ["arthur curry", "roi des mers", "orin"],
-    object: "Trident de Poséidon",
-    objectDesc: "Le trident doré qui commande les océans",
-    image: "assets/images/objects/trident-aquaman.jpg",
-    color: "#00a8e8",
+    hero: "Wonder Woman",
+    aliases: ["diana prince", "diana", "la femme wonder", "amazone"],
+    object: "Lasso de Vérité",
+    objectDesc: "Le lasso doré qui force quiconque à dire la vérité",
+    image: "assets/images/objets/lasso wonder-woman.jpg",
+    color: "#f5c518",
     difficulty: "facile"
   },
   {
-    id: 11,
-    hero: "Aquaman",
-    aliases: ["arthur curry", "roi des mers"],
-    object: "Couronne d'Atlantis",
-    objectDesc: "La couronne dorée du roi d'Atlantis",
-    image: "assets/images/objects/couronne-aquaman.jpg",
-    color: "#f5c518",
-    difficulty: "moyen"
+    id: 9,
+    hero: "Joker",
+    aliases: ["le joker", "le prince du crime"],
+    object: "Sourire du Joker",
+    objectDesc: "Le sourire terrifiant et emblématique du Clown Prince du Crime",
+    image: "assets/images/objets/joker smlie.jpg",
+    color: "#9b59b6",
+    difficulty: "facile"
   },
   {
-    id: 12,
+    id: 10,
     hero: "Green Lantern",
     aliases: ["hal jordan", "john stewart", "lanterne verte"],
-    object: "Anneau de Pouvoir",
-    objectDesc: "L'anneau vert qui permet de créer tout ce qu'on imagine",
-    image: "assets/images/objects/anneau-lantern.jpg",
+    object: "Lanterne verte",
+    objectDesc: "La lanterne source de pouvoir des Green Lanterns",
+    image: "assets/images/objets/Green Lantern Power Battery.jpg",
     color: "#00ff44",
     difficulty: "facile"
   },
   {
-    id: 13,
-    hero: "Green Arrow",
-    aliases: ["oliver queen", "arrow", "la flèche verte"],
-    object: "Arc de Green Arrow",
-    objectDesc: "L'arc recurve vert d'Oliver Queen",
-    image: "assets/images/objects/arc-arrow.jpg",
-    color: "#228b22",
+    id: 11,
+    hero: "Deadshot",
+    aliases: ["floyd lawton", "dead shot", "death shot"],
+    object: "Costume de Deadshot",
+    objectDesc: "L'armure rouge et grise du mercenaire le plus précis au monde",
+    image: "assets/images/objets/Deadshot.jpg",
+    color: "#888888",
     difficulty: "moyen"
   },
   {
+    id: 12,
+    hero: "Darkseid",
+    aliases: ["uxas", "dark side", "darkside"],
+    object: "Visage de Darkseid",
+    objectDesc: "Le visage de pierre aux yeux rouges du dieu tyran d'Apokolips",
+    image: "assets/images/objets/darkseid.jpg",
+    color: "#c8102e",
+    difficulty: "moyen"
+  },
+  {
+    id: 13,
+    hero: "Cyborg",
+    aliases: ["victor stone", "vic stone"],
+    object: "Torse robotique",
+    objectDesc: "Le torse cybernétique mi-humain mi-machine de Victor Stone",
+    image: "assets/images/objets/cyborg.jpg",
+    color: "#888888",
+    difficulty: "facile"
+  },
+  {
     id: 14,
-    hero: "Joker",
-    aliases: ["le joker", "le prince du crime"],
-
-object: "Carte de Joker",
-    objectDesc: "La carte à jouer emblématique du clown criminel",
-    image: "assets/images/objects/carte-joker.jpg",
-    color: "#9b59b6",
+    hero: "Superman",
+    aliases: ["clark kent", "kal el", "l'homme d'acier", "man of steel"],
+    object: "Costume de Superman",
+    objectDesc: "Le costume bleu et rouge avec le S emblématique",
+    image: "assets/images/objets/costume superman.jpg",
+    color: "#c8102e",
     difficulty: "facile"
   },
   {
     id: 15,
-    hero: "Joker",
-    aliases: ["le joker", "le prince du crime"],
-    object: "Marteau de Harley",
-    objectDesc: "Le grand marteau avec le visage du Joker",
-    image: "assets/images/objects/marteau-joker.jpg",
-    color: "#9b59b6",
-    difficulty: "difficile"
+    hero: "Nightwing",
+    aliases: ["dick grayson", "richard grayson", "night wing"],
+    object: "Costume de Nightwing",
+    objectDesc: "Le costume noir et bleu avec l'emblème en forme d'oiseau",
+    image: "assets/images/objets/Costume de nightwing.jpg",
+    color: "#4a9eff",
+    difficulty: "moyen"
   },
   {
     id: 16,
+    hero: "Doctor Fate",
+    aliases: ["kent nelson", "docteur fate", "docteur fathe", "doctor fathe", "dr fate"],
+    object: "Casque doré",
+    objectDesc: "Le casque doré du Seigneur de l'Ordre et de la magie",
+    image: "assets/images/objets/casque dr.fathe.jpg",
+    color: "#f5c518",
+    difficulty: "difficile"
+  },
+  {
+    id: 17,
     hero: "Harley Quinn",
-    aliases: ["harleen quinzel", "harley"],
-    object: "Batte de Baseball",
-    objectDesc: "La batte rose et bleue d'Harley Quinn",
-    image: "assets/images/objects/batte-harley.jpg",
+    aliases: ["harleen quinzel", "harley", "harley queen"],
+    object: "Batte Good Night",
+    objectDesc: "La batte de baseball 'Good Night' d'Harley Quinn",
+    image: "assets/images/objets/batte harley.jpg",
     color: "#ff69b4",
     difficulty: "facile"
   },
   {
-    id: 17,
-    hero: "Deathstroke",
-    aliases: ["slade wilson", "deathstroke the terminator"],
-    object: "Épée de Deathstroke",
-    objectDesc: "L'épée à lame orange et noire du mercenaire",
-    image: "assets/images/objects/epee-deathstroke.jpg",
-    color: "#ff6600",
-    difficulty: "difficile"
-  },
-  {
     id: 18,
-    hero: "Deadshot",
-    aliases: ["floyd lawton", "dead shot"],
-    object: "Canon de poignet",
-    objectDesc: "Le canon de précision fixé au poignet de Deadshot",
-    image: "assets/images/objects/canon-deadshot.jpg",
-    color: "#888888",
-    difficulty: "difficile"
+    hero: "Bane",
+    aliases: ["bane"],
+    object: "Masque de Bane",
+    objectDesc: "Le masque qui diffuse le venom dans le corps de Bane",
+    image: "assets/images/objets/Bane paintball Mask.jpg",
+    color: "#444444",
+    difficulty: "moyen"
   },
   {
     id: 19,
-    hero: "Captain Boomerang",
-    aliases: ["digger harkness", "boomerang"],
-    object: "Boomerang",
-    objectDesc: "Le boomerang de métal tranchant du voleur australien",
-    image: "assets/images/objects/boomerang-captain.jpg",
-    color: "#4488ff",
+    hero: "Flash",
+    aliases: ["barry allen", "wally west", "l'éclair", "the flash"],
+    object: "Bague de Flash",
+    objectDesc: "La bague dorée avec l'éclair rouge qui contient le costume",
+    image: "assets/images/objets/bague flash.jpg",
+    color: "#cc0000",
     difficulty: "moyen"
   },
   {
     id: 20,
-    hero: "Martian Manhunter",
-    aliases: ["j'onn j'onzz", "john jones", "le chasseur de mars"],
-    object: "Cape de Martian Manhunter",
-    objectDesc: "La cape bleue du dernier martien",
-    image: "assets/images/objects/cape-martian.jpg",
+    hero: "Green Arrow",
+    aliases: ["oliver queen", "arrow", "la flèche verte"],
+    object: "Arc composé",
+    objectDesc: "L'arc composé noir ultra-précis d'Oliver Queen",
+    image: "assets/images/objets/arc green arrow.jpg",
     color: "#228b22",
-    difficulty: "difficile"
+    difficulty: "moyen"
   },
   {
     id: 21,
-    hero: "Batman",
-    aliases: ["bruce wayne", "le chevalier noir"],
-    object: "Ceinture Utilitaire",
-    objectDesc: "La ceinture jaune avec tous les gadgets de Batman",
-    image: "assets/images/objects/ceinture-batman.jpg",
-    color: "#f5c518",
-    difficulty: "moyen"
+    hero: "Red Lantern",
+    aliases: ["atrocitus", "lanterne rouge", "red lanterns", "red lantern corps"],
+    object: "Anneau rouge",
+    objectDesc: "L'anneau rouge alimenté par la rage des Red Lanterns",
+    image: "assets/images/objets/anneau red lantern.jpg",
+    color: "#cc0000",
+    difficulty: "difficile"
   }
 ];
 
@@ -225,30 +224,24 @@ const STORAGE_KEY = "dc_game_state";
 
 const GameState = {
 
-  /* Initialise ou récupère l'état sauvegardé */
   init() {
     const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      return JSON.parse(saved);
-    }
+    if (saved) return JSON.parse(saved);
     return this.fresh();
   },
 
-  /* Crée un état vierge */
   fresh() {
     return {
-      found: [],          // ids des héros trouvés
-      player: null,       // nom du joueur connecté
+      found: [],
+      player: null,
       startedAt: Date.now()
     };
   },
 
-  /* Sauvegarde l'état */
   save(state) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   },
 
-  /* Réinitialise complètement */
   reset() {
     localStorage.removeItem(STORAGE_KEY);
   }
@@ -258,11 +251,6 @@ const GameState = {
    HELPERS
    ============================================ */
 
-/**
- * Vérifie si la réponse du joueur correspond au héros
- * Accepte le nom exact, les aliases, et est insensible
- * à la casse et aux accents
- */
 function checkAnswer(heroId, playerAnswer) {
   const hero = DC_HEROES.find(h => h.id === heroId);
   if (!hero) return false;
@@ -273,30 +261,17 @@ function checkAnswer(heroId, playerAnswer) {
        .replace(/[\u0300-\u036f]/g, "")
        .trim();
 
-  const answer = normalize(playerAnswer);
-  const heroName = normalize(hero.hero);
+  const answer  = normalize(playerAnswer);
+  const name    = normalize(hero.hero);
   const aliases = hero.aliases.map(normalize);
 
-  return answer === heroName || aliases.includes(answer);
+  return answer === name || aliases.includes(answer);
 }
 
-/**
- * Retourne le nombre de héros trouvés
- */
-function getFoundCount(state) {
-  return state.found.length;
-}
-
-/**
- * Vérifie si le joueur a tout trouvé (victoire)
- */
 function isVictory(state) {
   return state.found.length === DC_HEROES.length;
 }
 
-/**
-* Mélange le tableau des héros (Fisher-Yates)
- */
 function shuffleHeroes() {
   const arr = [...DC_HEROES];
   for (let i = arr.length - 1; i > 0; i--) {

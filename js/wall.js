@@ -1,23 +1,18 @@
 /* ============================================
-   DC FIND THE HERO — WALL.JS
+   DC FIND THE HERO — WALL.JS (version 3D)
    Génère le mur de cartes style Pinterest
-   avec colonnes défilantes indépendantes
-   + scène Three.js en arrière-plan
+   avec objets DC en 3D (canvas Three.js)
    ============================================ */
 
 (function () {
 
-  /* ============================================
-     CONFIGURATION
-     ============================================ */
   const CONFIG = {
-    columns: 4,          // Nombre de colonnes
-    cardsPerCol: 6,      // Cartes par colonne (dupliquées pour boucle infinie)
-    scrollSpeeds: [28, 22, 32, 25], // Durée animation en secondes par colonne
+    columns:      4,
+    scrollSpeeds: [28, 22, 32, 25],
   };
 
   /* ============================================
-     INIT PRINCIPALE
+     INIT
      ============================================ */
   function init() {
     initCursor();
@@ -27,20 +22,17 @@
   }
 
   /* ============================================
-     CURSEUR PERSONNALISÉ
+     CURSEUR
      ============================================ */
   function initCursor() {
     const cursor = document.getElementById('cursor');
     if (!cursor) return;
-
     document.addEventListener('mousemove', e => {
       cursor.style.left = e.clientX + 'px';
       cursor.style.top  = e.clientY + 'px';
     });
-
     document.addEventListener('mousedown', () => cursor.classList.add('click'));
     document.addEventListener('mouseup',   () => cursor.classList.remove('click'));
-
     document.querySelectorAll('button, a, .hero-card').forEach(el => {
       el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
       el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
@@ -58,13 +50,10 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(
-      60, window.innerWidth / window.innerHeight, 0.1, 1000
-    );
+    const scene  = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.z = 10;
 
-    /* Lumières */
     scene.add(new THREE.AmbientLight(0x111122, 2));
 
     const blueLight = new THREE.PointLight(0x0057b8, 6, 25);
@@ -76,106 +65,59 @@
     scene.add(goldLight);
 
     /* Étoiles */
+    const starPos = new Float32Array(1200 * 3);
+    for (let i = 0; i < 1200 * 3; i++) starPos[i] = (Math.random() - 0.5) * 80;
     const starGeo = new THREE.BufferGeometry();
-    const starCount = 1200;
-    const positions = new Float32Array(starCount * 3);
-    for (let i = 0; i < starCount * 3; i++) {
-      positions[i] = (Math.random() - 0.5) * 80;
-    }
-    starGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    const starMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.05, transparent: true, opacity: 0.5 });
-    const stars = new THREE.Points(starGeo, starMat);
+    starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+    const stars = new THREE.Points(
+      starGeo,
+      new THREE.PointsMaterial({ color: 0xffffff, size: 0.05, transparent: true, opacity: 0.5 })
+    );
     scene.add(stars);
 
-    /* Anneaux rotatifs */
-    const ring1 = createRing(6, 0x0057b8, 0.08);
+    /* Anneaux */
+    const ring1 = new THREE.Mesh(
+      new THREE.TorusGeometry(6, 0.012, 8, 100),
+      new THREE.MeshBasicMaterial({ color: 0x0057b8, transparent: true, opacity: 0.08 })
+    );
     ring1.rotation.x = Math.PI / 2.5;
     scene.add(ring1);
 
-    const ring2 = createRing(9, 0xf5c518, 0.05);
+    const ring2 = new THREE.Mesh(
+      new THREE.TorusGeometry(9, 0.01, 8, 100),
+      new THREE.MeshBasicMaterial({ color: 0xf5c518, transparent: true, opacity: 0.05 })
+    );
     ring2.rotation.x = Math.PI / 3;
-    ring2.rotation.y = Math.PI / 5;
+    ring2.rotation.y = Math.PI / 4;
     scene.add(ring2);
 
-    /* Objets flottants (symboles DC) */
-    const floaters = [];
-    const colors = [0xf5c518, 0x0057b8, 0xc8102e, 0x00ff88, 0x9b59b6];
-    for (let i = 0; i < 8; i++) {
-      const geo = i % 2 === 0
-        ? new THREE.OctahedronGeometry(0.3, 0)
-        : new THREE.IcosahedronGeometry(0.25, 0);
-      const mat = new THREE.MeshStandardMaterial({
-        color: colors[i % colors.length],
-        emissive: colors[i % colors.length],
-        emissiveIntensity: 0.4,
-        metalness: 0.9,
-        roughness: 0.2,
-      });
-      const mesh = new THREE.Mesh(geo, mat);
-      const angle = (i / 8) * Math.PI * 2;
-      mesh.position.set(
-        Math.
-cos(angle) * 7,
-        Math.sin(angle) * 3,
-        Math.sin(angle) * 2 - 3
-      );
-      scene.add(mesh);
-      floaters.push({
-        mesh,
-        baseY: mesh.position.y,
-        floatOffset: Math.random() * Math.PI * 2,
-        speed: 0.4 + Math.random() * 0.4,
-        rotSpeed: (Math.random() - 0.5) * 0.015,
-      });
-    }
-
-    /* Parallaxe souris */
     let mx = 0, my = 0;
     document.addEventListener('mousemove', e => {
       mx = (e.clientX / window.innerWidth  - 0.5) * 2;
       my = (e.clientY / window.innerHeight - 0.5) * 2;
     });
 
-    /* Boucle */
     const clock = new THREE.Clock();
     (function animate() {
       requestAnimationFrame(animate);
       const t = clock.getElapsedTime();
-
       camera.position.x += (mx * 1.2 - camera.position.x) * 0.025;
       camera.position.y += (-my * 0.8 - camera.position.y) * 0.025;
       camera.lookAt(0, 0, 0);
-
-      floaters.forEach(f => {
-        f.mesh.position.y = f.baseY + Math.sin(t * f.speed + f.floatOffset) * 0.4;
-        f.mesh.rotation.x += f.rotSpeed;
-        f.mesh.rotation.y += f.rotSpeed * 0.8;
-        f.mesh.material.emissiveIntensity = 0.3 + Math.sin(t * 2 + f.floatOffset) * 0.2;
-      });
-
       ring1.rotation.z = t * 0.08;
       ring2.rotation.z = -t * 0.05;
       stars.rotation.y = t * 0.008;
-
       blueLight.position.x = Math.sin(t * 0.3) * 7;
       blueLight.position.y = Math.cos(t * 0.4) * 5;
       goldLight.position.x = Math.cos(t * 0.25) * 7;
-
       renderer.render(scene, camera);
     })();
 
-    /* Resize */
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
-  }
-
-  function createRing(radius, color, opacity) {
-    const geo = new THREE.TorusGeometry(radius, 0.012, 8, 120);
-    const mat = new THREE.MeshBasicMaterial({ color, transparent: true, opacity });
-    return new THREE.Mesh(geo, mat);
   }
 
   /* ============================================
@@ -185,26 +127,19 @@ cos(angle) * 7,
     const grid = document.getElementById('wallGrid');
     if (!grid) return;
 
-    // Mélanger les héros
-    const heroes = shuffleHeroes();
-
-    // Diviser en 4 colonnes
+    const heroes  = shuffleHeroes();
     const columns = [[], [], [], []];
-    heroes.forEach((hero, i) => {
-      columns[i % CONFIG.columns].push(hero);
-    });
+    heroes.forEach((hero, i) => columns[i % CONFIG.columns].push(hero));
 
-    // Construire chaque colonne
     columns.forEach((colHeroes, colIndex) => {
       const col = document.createElement('div');
       col.className = 'wall-column';
 
-      // Direction alternée : paires descendent, impaires montent
       const direction = colIndex % 2 === 0 ? 'scroll-down' : 'scroll-up';
       col.classList.add(direction);
       col.style.setProperty('--scroll-dur', CONFIG.scrollSpeeds[colIndex] + 's');
 
-      // Créer les cartes (doublées pour boucle infinie)
+      /* Doubler les cartes pour la boucle infinie */
       const doubled = [...colHeroes, ...colHeroes];
       doubled.forEach(hero => {
         const card = createCard(hero);
@@ -213,23 +148,30 @@ cos(angle) * 7,
 
       grid.appendChild(col);
     });
+
+    /* Initialiser les canvas 3D APRÈS que les cartes
+       soient dans le DOM (pour avoir les dimensions) */
+    setTimeout(() => {
+      document.querySelectorAll('.hero-card:not(.found)').forEach(card => {
+        const heroId = parseInt(card.dataset.heroId);
+        const hero   = DC_HEROES.find(h => h.id === heroId);
+        if (hero && window.Objects3D) {
+          window.Objects3D.createObject3D(hero, card);
+        }
+      });
+    }, 100);
   }
 
   /* ============================================
-     CRÉATION D'UNE CARTE
+     CRÉATION D'UNE CARTE (sans <img>)
      ============================================ */
   function createCard(hero) {
     const card = document.createElement('div');
     card.className = 'hero-card';
     card.dataset.heroId = hero.id;
 
+    /* Le canvas 3D sera injecté par Objects3D.createObject3D */
     card.innerHTML = `
-      <img
-        class="card-img"
-        src="${hero.image}"
-        alt="Objet mystère"
-        onerror="this.src='assets/images/placeholder.jpg'"
-      />
       <div class="card-overlay"></div>
       <div class="card-difficulty ${hero.difficulty}"></div>
       <div class="card-click-hint">CLIQUER</div>
@@ -239,7 +181,6 @@ cos(angle) * 7,
       </div>
     `;
 
-    // Clic → ouvrir popup
     card.addEventListener('click', () => {
       if (card.classList.contains('found')) return;
       openPopup(hero, card);
@@ -247,32 +188,40 @@ cos(angle) * 7,
 
     return card;
   }
-/* ============================================
+
+  /* ============================================
      CHARGER L'ÉTAT SAUVEGARDÉ
-     Marquer les cartes déjà trouvées
      ============================================ */
   function loadState() {
     const state = GameState.init();
+
+    /* Nom du joueur */
+    const playerNameEl = document.getElementById('playerName');
+    if (playerNameEl && state.player) {
+      playerNameEl.textContent = state.player.toUpperCase();
+    }
+
     if (!state.found || state.found.length === 0) return;
 
-    state.found.forEach(id => {
-      markAllCardsFound(id);
-    });
-
+    state.found.forEach(id => markAllCardsFound(id));
     updateScore(state.found.length);
   }
 
   /* ============================================
-     MARQUER TOUTES LES CARTES D'UN HÉROS TROUVÉ
+     MARQUER LES CARTES TROUVÉES
      ============================================ */
   function markAllCardsFound(heroId) {
     document.querySelectorAll(`.hero-card[data-hero-id="${heroId}"]`).forEach(card => {
       card.classList.add('found');
+      /* Stopper le renderer 3D de cette carte */
+      if (window.Objects3D) {
+        window.Objects3D.stopObject3D(card);
+      }
     });
   }
 
   /* ============================================
-     MISE À JOUR DU SCORE HEADER
+     MISE À JOUR DU SCORE
      ============================================ */
   function updateScore(count) {
     const el = document.getElementById('scoreCount');
@@ -283,17 +232,12 @@ cos(angle) * 7,
   }
 
   /* ============================================
-     EXPOSER LES FONCTIONS NÉCESSAIRES
-     aux autres modules (popup.js, game-logic.js)
+     EXPOSER
      ============================================ */
-  window.WallModule = {
-    markAllCardsFound,
-    updateScore,
-  };
+  window.WallModule = { markAllCardsFound, updateScore };
 
   /* ============================================
-     LANCEMENT
-     ============================================ */
+     LANCEMENT============================================ */
   document.addEventListener('DOMContentLoaded', init);
 
 })();
