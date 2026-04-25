@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DC Find The Hero — Le Mur</title>
+  <link rel="stylesheet" href="css/global.css" />
+  <link rel="stylesheet" href="css/game.css" />
+</head>
+<body>
+
+  <!-- Curseur -->
+  <div id="cursor"></div>
+
+  <!-- Effets de fond -->
+  <div class="scanlines"></div>
+  <div class="overlay-radial"></div>
+
+  <!-- Coins décoratifs -->
+  <div class="corner tl"></div>
+  <div class="corner tr"></div>
+  <div class="corner bl"></div>
+  <div class="corner br"></div>
+
+  <!-- ====== HEADER ====== -->
+  <header class="game-header">
+    <a href="index.html" class="header-logo">
+      <img src="assets/images/dc-logo.png" alt="DC" />
+    </a>
+
+    <div class="header-center">
+      <span class="header-title">FIND THE HERO</span>
+    </div>
+
+    <div class="header-right">
+      <div class="score-badge">
+        <span class="score-count" id="scoreCount">0</span>
+        <span class="score-total">/ 21</span>
+        <span class="score-label">trouvés</span>
+      </div>
+      <div class="player-badge" id="playerBadge">
+        <span class="player-icon">◆</span>
+        <span class="player-name" id="playerName">Joueur</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ====== INSTRUCTION BAR ====== -->
+  <div class="instruction-bar">
+    <span class="instruction-text">
+      ◆ Clique sur un objet et devine à quel héros DC il appartient
+    </span>
+  </div>
+
+  <!-- ====== THREE.JS CANVAS (fond 3D) ====== -->
+  <canvas id="three-canvas"></canvas>
+
+  <!-- ====== LE MUR ====== -->
+  <main class="wall-container" id="wallContainer">
+    <div class="wall-grid" id="wallGrid">
+      <!-- Les colonnes sont générées par wall.js -->
+    </div>
+  </main>
+
+  <!-- ====== POPUP RÉPONSE ====== -->
+  <div class="popup-overlay" id="popupOverlay">
+    <div class="popup" id="popup">
+
+      <button class="popup-close" id="popupClose">✕</button>
+
+      <div class="popup-object-preview">
+        <img src="" alt="" id="popupImage" />
+        <div class="popup-glow" id="popupGlow"></div>
+      </div>
+
+      <div class="popup-content">
+        <p class="popup-hint" id="popupHint">Quel héros possède cet objet ?</p>
+        <p class="popup-object-name" id="popupObjectName"></p>
+        <p class="popup-object-desc" id="popupObjectDesc"></p>
+
+        <div class="popup-input-wrapper">
+          <input
+            type="text"
+            class="input-field popup-input"
+            id="popupInput"
+            placeholder="Tape le nom du héros..."
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <span class="popup-enter-hint">Appuie sur ↵ Entrée pour valider</span>
+        </div>
+
+        <div class="popup-feedback" id="popupFeedback"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ====== ÉCRAN VICTOIRE (mini) ====== -->
+  <div class="victory-toast" id="victoryToast">
+    <div class="victory-toast-inner">
+      <div class="victory-icon">🏆</div>
+      <p class="victory-toast-text">Tu es un vrai fan DC !</p>
+      <a href="victory.html" class="btn-primary"><span>Voir mon badge</span></a>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="js/game-data.js"></script>
+  <script src="js/wall.js"></script>
+  <script src="js/popup.js"></script>
+  <script src="js/game-logic.js"></script>
+</body>
+</html>

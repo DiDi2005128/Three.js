@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DC Find The Hero — Victoire !</title>
+  <link rel="stylesheet" href="css/global.css" />
+  <link rel="stylesheet" href="css/victory.css" />
+</head>
+<body>
+
+  <!-- Curseur -->
+  <div id="cursor"></div>
+
+  <!-- Effets -->
+  <div class="scanlines"></div>
+
+  <!-- Coins -->
+  <div class="corner tl"></div>
+  <div class="corner tr"></div>
+  <div class="corner bl"></div>
+  <div class="corner br"></div>
+
+  <!-- Canvas Three.js -->
+  <canvas id="three-canvas"></canvas>
+
+  <!-- Particules confettis -->
+  <div id="confetti-container"></div>
+
+  <!-- ====== CONTENU VICTOIRE ====== -->
+  <div class="victory-wrapper">
+
+    <!-- Logo DC -->
+    <div class="victory-logo">
+      <img src="assets/images/dc-logo.png" alt="DC Comics" />
+    </div>
+
+    <!-- Titre -->
+    <div class="victory-headline">
+      <p class="victory-label">◆ FÉLICITATIONS ◆</p>
+      <h1 class="victory-title">
+        <span class="line1">TU ES UN VRAI</span>
+        <span class="line2">FAN DC !</span>
+      </h1>
+    </div>
+
+    <!-- Badge -->
+    <div class="badge-container">
+      <div class="badge" id="badge">
+        <div class="badge-ring badge-ring-outer"></div>
+        <div class="badge-ring badge-ring-inner"></div>
+        <div class="badge-body">
+          <div class="badge-icon">🏆</div>
+          <div class="badge-title">TEAM DC</div>
+          <div class="badge-subtitle">HÉROS CONFIRMÉ</div>
+          <div class="badge-stars">★ ★ ★</div>
+        </div>
+        <div class="badge-glow"></div>
+      </div>
+      <p class="badge-caption">Badge débloqué — Team DC</p>
+    </div>
+
+    <!-- Stats -->
+    <div class="victory-stats">
+      <div class="stat-item">
+        <span class="stat-value" id="statHeroes">21</span>
+        <span class="stat-label">Héros trouvés</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-value" id="statTime">—</span>
+        <span class="stat-label">Temps de jeu</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-value" id="statPlayer">—</span>
+        <span class="stat-label">Joueur</span>
+      </div>
+    </div>
+
+    <!-- Message personnalisé -->
+    <p class="victory-message" id="victoryMessage">
+      Tu connais l'univers DC mieux que personne.
+    </p>
+
+    <!-- Actions -->
+    <div class="victory-actions">
+      <button class="btn-primary" onclick="replayGame()">
+        <span>🔄 REJOUER</span>
+      </button>
+      <button class="btn-secondary share-btn" onclick="shareVictory()">
+        Partager ma victoire ↗
+      </button>
+    </div>
+
+    <!-- Héros découverts -->
+    <div class="heroes-recap">
+      <p class="recap-title">◆ TOUS LES HÉROS DÉCOUVERTS</p>
+      <div class="heroes-grid" id="heroesGrid">
+        <!-- Généré par victory.js -->
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Toast partage -->
+  <div class="share-toast" id="shareToast">
+    ✔ Copié dans le presse-papiers !
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="js/game-data.js"></script>
+  <script src="js/victory.js"></script>
+
+</body>
+</html>

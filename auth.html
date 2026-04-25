@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DC Find The Hero — Connexion</title>
+  <link rel="stylesheet" href="css/global.css" />
+  <link rel="stylesheet" href="css/auth.css" />
+</head>
+<body>
+
+  <!-- Curseur -->
+  <div id="cursor"></div>
+
+  <!-- Effets de fond -->
+  <div class="scanlines"></div>
+
+  <!-- Coins décoratifs -->
+  <div class="corner tl"></div>
+  <div class="corner tr"></div>
+  <div class="corner bl"></div>
+  <div class="corner br"></div>
+
+  <!-- Canvas Three.js -->
+  <canvas id="three-canvas"></canvas>
+
+  <!-- ====== CONTAINER PRINCIPAL ====== -->
+  <div class="auth-wrapper">
+
+    <!-- Logo DC -->
+    <a href="index.html" class="auth-logo">
+      <img src="assets/images/dc-logo.png" alt="DC Comics" />
+    </a>
+
+    <h1 class="auth-title">FIND THE HERO</h1>
+    <p class="auth-subtitle">Rejoins l'univers DC</p>
+
+    <!-- ====== CARTE AUTH ====== -->
+    <div class="auth-card">
+
+      <!-- Tabs -->
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tabLogin" onclick="switchTab('login')">
+          CONNEXION
+        </button>
+        <button class="auth-tab" id="tabRegister" onclick="switchTab('register')">
+          INSCRIPTION
+        </button>
+        <div class="auth-tab-indicator" id="tabIndicator"></div>
+      </div>
+
+      <!-- ====== FORMULAIRE CONNEXION ====== -->
+      <div class="auth-form" id="formLogin">
+
+        <div class="input-group">
+          <label class="input-label">Nom d'utilisateur</label>
+          <input
+            type="text"
+            class="input-field"
+            id="loginUsername"
+            placeholder="Ex : BruceWayne"
+            autocomplete="username"
+          />
+        </div>
+
+        <div class="input-group">
+          <label class="input-label">Mot de passe</label>
+          <div class="input-password-wrapper">
+            <input
+              type="password"
+              class="input-field"
+              id="loginPassword"
+              placeholder="••••••••"
+              autocomplete="current-password"
+            />
+            <button class="toggle-password" onclick="togglePassword('loginPassword', this)">
+              👁
+            </button>
+          </div>
+        </div>
+
+        <div class="auth-feedback" id="loginFeedback"></div>
+
+        <button class="btn-primary auth-btn" onclick="handleLogin()">
+          <span>ENTRER DANS L'UNIVERS DC</span>
+        </button>
+
+        <p class="auth-switch">
+          Pas encore de compte ?
+          <span class="auth-link" onclick="switchTab('register')">S'inscrire</span>
+        </p>
+
+      </div>
+
+      <!-- ====== FORMULAIRE INSCRIPTION ====== -->
+      <div class="auth-form hidden" id="formRegister">
+
+        <div class="input-group">
+          <label class="input-label">Choisis ton nom de héros</label>
+          <input
+            type="text"
+            class="input-field"
+            id="registerUsername"
+            placeholder="Ex : NightWing42"
+            autocomplete="username"
+            maxlength="20"
+          />
+          <span class="input-hint">Entre 3 et 20 caractères</span>
+        </div>
+
+        <div class="input-group">
+          <label class="input-label">Email</label>
+          <input
+            type="email"
+            class="input-field"
+            id="registerEmail"
+            placeholder="ton@email.com"
+            autocomplete="email"
+          />
+        </div>
+
+        <div class="input-group">
+          <label class="input-label">Mot de passe</label>
+          <div class="input-password-wrapper">
+            <input
+              type="password"
+              class="input-field"
+              id="registerPassword"
+              placeholder="Min. 6 caractères"
+              autocomplete="new-password"
+            />
+            <button class="toggle-password" onclick="togglePassword('registerPassword', this)">
+              👁
+            </button>
+          </div>
+        </div>
+
+        <div class="input-group">
+            <label class="input-label">Confirmer le mot de passe</label>
+          <input
+            type="password"
+            class="input-field"
+            id="registerConfirm"
+            placeholder="••••••••"
+            autocomplete="new-password"
+          />
+        </div>
+
+        <!-- Choix du héros favori -->
+        <div class="input-group">
+          <label class="input-label">Ton héros DC favori</label>
+          <div class="hero-picker" id="heroPicker">
+            <button class="hero-pick-btn active" data-hero="Batman">🦇 Batman</button>
+            <button class="hero-pick-btn" data-hero="Superman">🦸 Superman</button>
+            <button class="hero-pick-btn" data-hero="Wonder Woman">⚔️ Wonder Woman</button>
+            <button class="hero-pick-btn" data-hero="Flash">⚡ Flash</button>
+            <button class="hero-pick-btn" data-hero="Aquaman">🔱 Aquaman</button>
+            <button class="hero-pick-btn" data-hero="Green Lantern">💚 Green Lantern</button>
+          </div>
+        </div>
+
+        <div class="auth-feedback" id="registerFeedback"></div>
+
+        <button class="btn-primary auth-btn" onclick="handleRegister()">
+          <span>REJOINDRE LA TEAM DC</span>
+        </button>
+
+        <p class="auth-switch">
+          Déjà un compte ?
+          <span class="auth-link" onclick="switchTab('login')">Se connecter</span>
+        </p>
+
+      </div>
+
+    </div>
+
+    <!-- Mode invité -->
+    <button class="guest-btn" onclick="continueAsGuest()">
+      Continuer sans compte →
+    </button>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="js/auth.js"></script>
+
+</body>
+</html>

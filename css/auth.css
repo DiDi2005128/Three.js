@@ -1,0 +1,270 @@
+/* ============================================
+   DC FIND THE HERO — AUTH STYLES
+   ============================================ */
+
+/* ---- CANVAS FOND ---- */
+#three-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  opacity: 0.3;
+}
+
+/* ---- WRAPPER ---- */
+.auth-wrapper {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  gap: 12px;
+}
+
+/* ---- LOGO ---- */
+.auth-logo {
+  display: block;
+  margin-bottom: 4px;
+}
+.auth-logo img {
+  height: 70px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 16px rgba(0, 87, 184, 0.9));
+  transition: filter 0.3s;
+}
+.auth-logo:hover img {
+  filter: drop-shadow(0 0 28px rgba(0, 87, 184, 1));
+}
+
+/* ---- TITRE ---- */
+.auth-title {
+  font-family: var(--font-title);
+  font-size: 36px;
+  letter-spacing: 10px;
+  color: var(--text);
+  text-shadow: 0 0 20px rgba(245, 197, 24, 0.3);
+  line-height: 1;
+}
+
+.auth-subtitle {
+  font-size: 13px;
+  letter-spacing: 5px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+/* ---- CARTE ---- */
+.auth-card {
+  width: 100%;
+  max-width: 440px;
+  background: rgba(10, 15, 30, 0.92);
+  border: 1px solid rgba(0, 87, 184, 0.3);
+  border-radius: 12px;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+  box-shadow:
+    0 0 60px rgba(0, 87, 184, 0.15),
+    0 30px 80px rgba(0, 0, 0, 0.7);
+}
+
+/* ---- TABS ---- */
+.auth-tabs {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid rgba(0, 87, 184, 0.2);
+}
+
+.auth-tab {
+  padding: 18px;
+  font-family: var(--font-title);
+  font-size: 15px;
+  letter-spacing: 4px;
+  color: var(--text-dim);
+  background: none;
+  border: none;
+  cursor: none;
+  transition: color 0.3s;
+  position: relative;
+  z-index: 1;
+}
+.auth-tab.active { color: var(--gold); }
+.auth-tab:hover:not(.active) { color: var(--text-muted); }
+
+/* Indicateur glissant */
+.auth-tab-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50%;
+  height: 2px;
+  background: var(--gold);
+  transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 0 8px rgba(245, 197, 24, 0.6);
+}
+.auth-tab-indicator.right {
+  transform: translateX(100%);
+}
+
+/* ---- FORMULAIRES ---- */
+.auth-form {
+  padding: 28px 32px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.auth-form.hidden { display: none; }
+
+/* ---- INPUT GROUP ---- */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.input-label {
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.input-hint {
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+}
+
+/* Wrapper password (input + bouton oeil) */
+.input-password-wrapper {
+  position: relative;
+}
+.input-password-wrapper .input-field {
+  padding-right: 44px;
+}
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: none;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+  padding: 4px;
+}
+.toggle-password:hover { opacity: 1; }
+
+/* ---- HERO PICKER ---- */
+.hero-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hero-pick-btn {
+  padding: 8px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(0, 87, 184, 0.2);
+  border-radius: 20px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--text-muted);
+  cursor: none;
+  transition: all 0.2s;
+}
+.hero-pick-btn:hover {
+  border-color: var(--blue-light);
+  color: var(--text);
+}
+.hero-pick-btn.active {
+  background: rgba(0, 87, 184, 0.2);
+  border-color: var(--blue-light);
+  color: var(--text);
+  box-shadow: 0 0 10px rgba(0, 87, 184, 0.3);
+}
+
+/* ---- FEEDBACK ---- */
+.auth-feedback {
+  min-height: 22px;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-align: center;
+  transition: opacity 0.3s;
+}
+.auth-feedback.error   { color: var(--red); }
+.auth-feedback.success { color: #00ff88; }
+
+/* ---- BOUTON AUTH ---- */
+.auth-btn {
+  width: 100%;
+  height: 52px;
+  font-size: 16px;
+  letter-spacing: 3px;
+  margin-top: 4px;
+}
+
+/* ---- SWITCH LIEN ---- */
+.auth-switch {
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.auth-link {
+  color: var(--blue-light);
+  cursor: none;
+  transition: color 0.2s;
+}
+.auth-link:hover { color: var(--gold); }
+
+/* ---- BOUTON INVITÉ ---- */
+.guest-btn {
+  font-family: var(--font-body);
+  font-size: 13px;
+  letter-spacing: 3px;
+  color: var(--text-dim);
+  background: none;
+  border: none;
+  cursor: none;
+  padding: 8px;
+  transition: color 0.2s;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+.guest-btn:hover { color: var(--text-muted); }
+
+/* ---- INPUT VALIDATION STATES ---- */
+.input-field.valid {
+  border-color: #00ff88;
+  box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1);
+}
+.input-field.invalid {
+  border-color: var(--red);
+  box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.1);
+}
+
+/* ---- LOADING STATE BOUTON ---- */
+.auth-btn.loading span::after {
+  content: '...';
+  animation: loadingDots 1s infinite;
+}
+@keyframes loadingDots {
+  0%   { content: '.'; }
+  33%  { content: '..'; }
+  66%  { content: '...'; }
+}
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 480px) {
+  .auth-form { padding: 24px 20px 28px; }
+  .auth-title { font-size: 28px; letter-spacing: 6px; }
+  .hero-picker { gap: 6px; }
+  .hero-pick-btn { font-size: 12px; padding: 6px 10px; }
+}

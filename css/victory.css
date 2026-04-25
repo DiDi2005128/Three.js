@@ -1,0 +1,345 @@
+/* ============================================
+   DC FIND THE HERO — VICTORY STYLES
+   ============================================ */
+
+/* ---- CANVAS FOND ---- */
+#three-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+/* ---- CONFETTIS ---- */
+#confetti-container {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* ---- WRAPPER ---- */
+.victory-wrapper {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 24px 80px;
+  gap: 32px;
+}
+
+/* ---- LOGO ---- */
+.victory-logo {
+  animation: victoryLogoIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+.victory-logo img {
+  height: 72px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 20px rgba(0, 87, 184, 1))
+          drop-shadow(0 0 50px rgba(0, 87, 184, 0.5));
+}
+@keyframes victoryLogoIn {
+  from { opacity: 0; transform: translateY(-30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- HEADLINE ---- */
+.victory-headline {
+  text-align: center;
+  animation: victoryHeadIn 0.8s 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+@keyframes victoryHeadIn {
+  from { opacity: 0; transform: scale(0.85); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.victory-label {
+  font-size: 12px;
+  letter-spacing: 6px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.victory-title {
+  font-family: var(--font-title);
+  line-height: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.line1 {
+  font-size: clamp(32px, 6vw, 60px);
+  letter-spacing: 8px;
+  color: var(--text);
+}
+.line2 {
+  font-size: clamp(52px, 10vw, 100px);
+  letter-spacing: 6px;
+  color: var(--gold);
+  text-shadow:
+    0 0 30px rgba(245, 197, 24, 0.6),
+    0 0 80px rgba(245, 197, 24, 0.3);
+  animation: pulseFan 2.5s ease-in-out infinite;
+}
+@keyframes pulseFan {
+  0%, 100% { text-shadow: 0 0 30px rgba(245,197,24,0.6), 0 0 80px rgba(245,197,24,0.3); }
+  50%       { text-shadow: 0 0 50px rgba(245,197,24,0.9), 0 0 120px rgba(245,197,24,0.5); }
+}
+
+/* ---- BADGE ---- */
+.badge-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  animation: badgeIn 1s 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@keyframes badgeIn {
+  from { opacity: 0; transform: scale(0.3) rotate(-15deg); }
+  to   { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+.badge {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: badgeSpin 12s linear infinite;
+}
+@keyframes badgeSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Anneaux tournants */
+.badge-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid var(--gold);
+}
+.badge-ring-outer {
+  width: 180px;
+  height: 180px;
+  opacity: 0.4;
+  border-style: dashed;
+}
+.badge-ring-inner {
+  width: 150px;
+  height: 150px;
+  opacity: 0.25;
+  animation: badgeRingReverse 8s linear infinite;
+}
+@keyframes badgeRingReverse {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+
+/* Corps du badge (ne tourne pas) */
+.badge-body {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle at 40% 35%, #1a2a4a, #050810);
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  animation: badgeBodyCounter 12s linear infinite;
+  box-shadow:
+    0 0 20px rgba(245, 197, 24, 0.4),
+    0 0 50px rgba(245, 197, 24, 0.2),
+    inset 0 2px 0 rgba(255,255,255,0.1);
+  z-index: 2;
+}
+@keyframes badgeBodyCounter {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+
+.badge-icon    { font-size: 28px; }
+.badge-title   { font-family: var(--font-title); font-size: 16px; letter-spacing: 3px; color: var(--gold); }
+.badge-subtitle{ font-size: 9px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; }
+.badge-stars   { font-size: 10px; color: var(--gold); letter-spacing: 4px; }
+
+/* Glow badge */
+.badge-glow {
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245,197,24,0.15) 0%, transparent 70%);
+  animation: badgeGlowPulse 2s ease-in-out infinite;
+}
+@keyframes badgeGlowPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%       { transform: scale(1.2); opacity: 0.6; }
+}
+
+.badge-caption {
+  font-size: 12px;
+  letter-spacing: 4px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+/* ---- STATS ---- */
+.victory-stats {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: rgba(10, 15, 30, 0.8);
+  border: 1px solid rgba(0, 87, 184, 0.25);
+  border-radius: 10px;
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+  animation: statsIn 0.8s 0.6s both;
+}
+@keyframes statsIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 20px 32px;
+}
+.stat-value {
+  font-family: var(--font-title);
+  font-size: 32px;
+  color: var(--gold);
+  line-height: 1;
+}
+.stat-label {
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+.stat-divider {
+  width: 1px;
+  height: 50px;
+  background: rgba(0, 87, 184, 0.25);
+}
+
+/* ---- MESSAGE ---- */
+.victory-message {
+  font-size: 16px;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  text-align: center;
+  max-width: 400px;
+  animation: statsIn 0.8s 0.8s both;
+}
+
+/* ---- ACTIONS ---- */
+.victory-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+  animation: statsIn 0.8s 1s both;
+}
+.share-btn { font-size: 14px; letter-spacing: 2px; }
+
+/* ---- HEROES RECAP ---- */
+.heroes-recap {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  animation: statsIn 0.8s 1.2s both;
+}
+.recap-title {
+  font-size: 12px;
+  letter-spacing: 5px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+.heroes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 10px;
+  width: 100%;
+}
+.hero-chip {
+  background: rgba(10, 15, 30, 0.8);
+  border: 1px solid rgba(0, 87, 184, 0.2);
+  border-radius: 8px;
+  padding: 10px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.hero-chip:hover {
+  border-color: var(--gold);
+  transform: translateY(-3px);
+}
+.hero-chip-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.hero-chip-name {
+  font-family: var(--font-title);
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.2;
+}
+.hero-chip-object {
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: var(--text-dim);
+  text-align: center;
+}
+
+/* ---- SHARE TOAST ---- */
+.share-toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--card-bg);
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+  padding: 14px 28px;
+  font-family: var(--font-title);
+  font-size: 16px;
+  letter-spacing: 3px;
+  color: var(--gold);
+  z-index: 200;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  pointer-events: none;
+}
+.share-toast.show {
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 600px) {
+  .victory-stats { flex-direction: column; gap: 0; }
+  .stat-divider  { width: 80px; height: 1px; }
+  .stat-item     { padding: 16px 24px; }
+  .heroes-grid   { grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); }
+  .victory-actions { flex-direction: column; }
+}
